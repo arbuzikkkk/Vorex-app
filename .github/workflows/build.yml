@@ -30,6 +30,15 @@ jobs:
             flutter create --org com.vorex --project-name vorex .
           fi
 
+      - name: Fix Kotlin version
+        run: |
+          if [ -f android/settings.gradle ]; then
+            sed -i 's/id "org.jetbrains.kotlin.android" version "[^"]*"/id "org.jetbrains.kotlin.android" version "1.9.22"/' android/settings.gradle
+          fi
+          if [ -f android/build.gradle ]; then
+            sed -i "s/ext.kotlin_version = '[^']*'/ext.kotlin_version = '1.9.22'/" android/build.gradle
+          fi
+
       - name: Add required permissions
         run: |
           MANIFEST="android/app/src/main/AndroidManifest.xml"
